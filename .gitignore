@@ -6,3 +6,6 @@ __pycache__/
 
 clean.sh
 features.sh
+
+report.md 
+report_to_table.sh
