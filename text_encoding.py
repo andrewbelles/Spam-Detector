@@ -1,3 +1,10 @@
+#!/bin/bash 
+# 
+# text_encoding.py  Andrew Belles  Sept 6th, 2025
+# Takes in spam classification data from csv, encodes using USE-4 
+# Normalized data, splits into training and test samples, and saves to file 
+# 
+
 import tensorflow as tf, tensorflow_hub as hub 
 import pandas as pd, numpy as np, re 
 from sklearn.model_selection import train_test_split 
@@ -8,6 +15,26 @@ SB_RE = re.compile(r"^\s*Subject:\s*(.+?)(?:\s{2,}|$)(.*)$", flags=re.I|re.S)
 # Load universal sentence encoder 
 USE = hub.KerasLayer("https://tfhub.dev/google/universal-sentence-encoder/4",
                      trainable=False)
+
+
+def load_samples(path: str):
+    '''
+    Load X and y from requested the .npz file  
+    Input: 
+        path to .npz 
+    Outputs: 
+        tuple to X, y
+    '''
+    data = np.load(path, mmap_mode="r")
+    X = data["X"]
+    y = data["y"]
+    data.close()
+
+    y = np.asarray(y).reshape(-1).astype(np.int32)
+    X = np.asarray(X).astype(np.float32, copy=False)
+
+    assert X.shape[0] == y.shape[0]
+    return X, y 
 
 
 def split_subject_body(s: str) -> tuple[str, str]:
