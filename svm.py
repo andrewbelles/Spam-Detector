@@ -24,7 +24,7 @@ def get_linear_svc(X, y):
     Output: 
         Best performing model from randomized search, then a finer grid search
     '''
-    svc = LinearSVC(class_weight="balanced", dual=False, loss="squared_hinge", penalty="l2")
+    svc = LinearSVC(class_weight="balanced", loss="squared_hinge", penalty="l2")
     param_grid = {
         "C": loguniform(1e-3, 1e+1),
         "tol": [1e-4, 1e-3],
@@ -59,7 +59,7 @@ def get_rbf_svc(X, y):
         Best performing model from randomized search, then a finer grid search
     '''
     cross = StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED)
-    svc = SVC(kernel="rbf", class_weight="balanced", probability=False)
+    svc = SVC(kernel="rbf", class_weight="balanced", probability=False, cache_size=2000)
 
     param_grid = {
         "C": loguniform(1e-3, 10),
