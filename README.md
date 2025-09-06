@@ -8,7 +8,7 @@ Data follows the following pipeline from csv to training. Data is first split in
 
 ## Model Architecture 
 
-I use the Universal Sentence Encoder, a pretrained model provided by `tensorflow_hub` to encode data, providing a deep learning backbone to how we extract numeric values from each email. My inference is done by a linear support vector machine. We compute support vectors over a grid of hyperparameters and optimize for the best performing ones on the training samples. This model is stored. Inference then pulls this stored model, makes predictions on the test samples using the model to showcase efficacy. 
+I use the Universal Sentence Encoder, a pretrained model provided by `tensorflow_hub` to encode data, providing a deep learning backbone to how we extract numeric values from each email. The most up to date model is an SVM using the RBF kernel. I optimize hyperparameters over a random search, then using the best parameters from that search, I perform a grid search around those values. This model is stored and at inference, it pulled back up, makes predictions on the test samples, and records metrics about the model to showcase efficacy. 
 
 ## Usage 
 
@@ -33,6 +33,6 @@ Performance metrics from most recent model,
 |macro avg|0.984|0.980|0.982|1146|
 |weighted avg|0.987|0.987|0.987|1146|
 
-And the corrsponding Confusion Matrix,
+This table essentially shows that the model has a low false positive rate, while having a high true positive rate (and low false negative rate). Overall, the model has an accuracy of 98.7% on the training samples. The corrsponding Confusion Matrix,
 
 ![Confusion Matrix](confusion_matrix.png)
