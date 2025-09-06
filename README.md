@@ -21,16 +21,18 @@ Using the emails.csv file (Or any other dataset that is formatted similarly),
 
 I plan on creating a pipeline to read a faux input stream of emails and perform real-time classification of emails. This requires a more robust formatting that works off of the pure html format. Additionally it might require a more robust way of handling larger emails as the token context of USE-4 might not be sufficient. 
 
-## Output, Hyperparameters, and Confusion Matrix for Current Best Model
+## Metrics and Confusion Matrix for Current Best Model
 
-Outputs from most recent model
+Performance metrics from most recent model,
 
 |class|precision|recall|f1|support|
 |---|---|---|---|---|
-|non-spam|0.990|0.982|0.986|872|
-|spam|0.943|0.967|0.955|274|
-|accuracy|||0.978|1146|
-|macro avg|0.966|0.974|0.970|1146|
-|weighted avg|0.978|0.978|0.978|1146|
+|non-spam|0.990|0.993|0.991|872|
+|spam|0.978|0.967|0.972|274|
+|accuracy|||0.987|1146|
+|macro avg|0.984|0.980|0.982|1146|
+|weighted avg|0.987|0.987|0.987|1146|
+
+And the corrsponding Confusion Matrix,
 
 ![Confusion Matrix](confusion_matrix.png)
