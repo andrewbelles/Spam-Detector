@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/python 
 # 
 # text_encoding.py  Andrew Belles  Sept 6th, 2025
 # Takes in spam classification data from csv, encodes using USE-4 
@@ -93,15 +93,16 @@ def main():
     subj_body["model_text"] = ("[SUBJECT] " + subj_body["subject"] + 
                                " [BODY] " + subj_body["body"])
     gen = np.random.default_rng()
-    emails = subj_body.sample(frac=1, random_state=gen).reset_index(drop=True)
+    emails = pd.DataFrame({"text": subj_body["model_text"], "y": raw["spam"].values})
+    emails = emails.sample(frac=1, random_state=gen).reset_index(drop=True)
    
     # Get encoded emails from USE-4 encoder 
-    X = encode_emails(emails["model_text"])
-    y = raw["spam"].to_numpy().astype(int)
+    X = encode_emails(emails["text"].tolist())
+    y = emails["y"].to_numpy().astype(int)
 
     # Into numpy datatypes
     X = X.astype(np.float64)
-    y = y.astype(np.int32).reshape(-1, 1)
+    y = y.astype(np.int32)
     
     # Get indices for training and test samples, while maintaining class balance 
     idx = np.arange(len(y))
