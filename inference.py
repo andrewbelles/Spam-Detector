@@ -19,7 +19,7 @@ def main():
 
     # Load Data and Model 
     X, y = load_samples("test_samples.npz")
-    model = joblib.load("svm_best.joblib")
+    model = joblib.load("model.joblib")
 
     # Extract predictions 
     probs = model.predict_proba(X)[:, 1]
@@ -29,6 +29,7 @@ def main():
     report = classification_report(y, preds, target_names=label_names, 
                                    digits=3, output_dict=True)
 
+    # Extra work to write to stdout with formatting for shell script to convert to md table 
     writer = csv.writer(sys.stdout, delimiter="\t", lineterminator="\n")
     writer.writerow(["class", "precision", "recall", "f1", "support"])
     for name in label_names:
@@ -36,16 +37,17 @@ def main():
         writer.writerow([name, f"{r['precision']:.3f}", f"{r['recall']:.3f}",
                          f"{r['f1-score']:.3f}", int(r['support'])])
 
-# accuracy row
+    # accuracy row
     total_support = sum(int(report[n]["support"]) for n in label_names)
     writer.writerow(["accuracy", "", "", f"{report['accuracy']:.3f}", total_support])
 
-# macro/weighted
+    # macro/weighted
     for name in ["macro avg", "weighted avg"]:
         r = report[name]
         writer.writerow([name, f"{r['precision']:.3f}", f"{r['recall']:.3f}",
                          f"{r['f1-score']:.3f}", int(r['support'])])
 
+    # Generate confusion matrix 
     cm = confusion_matrix(y, preds, labels=[0, 1])
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=label_names)
     disp.plot(values_format="d", cmap="Blues")

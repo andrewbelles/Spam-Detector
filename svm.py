@@ -91,7 +91,7 @@ def main():
     calibrated = CalibratedClassifierCV(rbf, method="sigmoid", cv=5)
     calibrated.fit(X, y)
 
-    joblib.dump(calibrated, "svm_best.joblib")
+    joblib.dump(calibrated, "model.joblib")
 
 
 if __name__ == "__main__":
