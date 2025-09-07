@@ -1,6 +1,6 @@
 *.npz 
 *.log 
-svm_best.joblib
+*.joblib
 
 *.csv
 
